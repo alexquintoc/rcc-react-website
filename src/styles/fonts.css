@@ -1,0 +1,30 @@
+/*
+  Self-hosted, subsetted (latin) variable fonts.
+  Oswald: retained from RCC's existing brand kit for display type (Direction C, "Fieldwork").
+  Source Sans 3: warm, highly legible humanist body/UI face, distinct from the current
+  Roboto pairing and from the other two explored directions (Public Sans / IBM Plex Sans).
+*/
+
+@font-face {
+  font-family: 'RCC Display';
+  src: url('../assets/fonts/oswald-variable.woff2') format('woff2-variations');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'RCC Text';
+  src: url('../assets/fonts/source-sans-3-variable.woff2') format('woff2-variations');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'RCC Text';
+  src: url('../assets/fonts/source-sans-3-italic-variable.woff2') format('woff2-variations');
+  font-weight: 300 700;
+  font-style: italic;
+  font-display: swap;
+}

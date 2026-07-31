@@ -1,0 +1,67 @@
+.ca-intro p {
+  font-size: var(--text-lead);
+  color: var(--color-ink-soft);
+  line-height: var(--leading-snug);
+  max-width: 68ch;
+}
+
+.ca-intro p + p {
+  margin-top: var(--space-4);
+}
+
+.ca-challenge__eyebrow {
+  color: var(--color-orange);
+}
+
+.ca-challenge h2 {
+  font-size: var(--text-display-2);
+  color: var(--color-on-photo);
+  margin-bottom: var(--space-5);
+  max-width: 14ch;
+}
+
+.ca-challenge p {
+  font-size: var(--text-lead);
+  color: var(--color-on-photo-soft);
+  line-height: var(--leading-snug);
+  max-width: 60ch;
+}
+
+.ca-approach {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-8) var(--space-7);
+}
+
+.ca-approach__item {
+  border-top: 2px solid var(--color-border-strong);
+  padding-top: var(--space-5);
+}
+
+.ca-approach__item h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-display-3);
+  margin-bottom: var(--space-3);
+}
+
+.ca-approach__item p {
+  font-size: var(--text-body);
+  color: var(--color-ink-soft);
+  line-height: var(--leading-normal);
+  max-width: 42ch;
+}
+
+.ca-closing p {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-display-3);
+  color: var(--color-navy);
+  line-height: var(--leading-snug);
+  max-width: 44ch;
+}
+
+@media (max-width: 700px) {
+  .ca-approach {
+    grid-template-columns: 1fr;
+  }
+}

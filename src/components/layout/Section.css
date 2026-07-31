@@ -1,0 +1,36 @@
+.section {
+  padding-block: var(--section-pad-y);
+  scroll-margin-top: 88px;
+}
+
+.section--paper {
+  background: var(--color-paper);
+}
+
+.section--surface {
+  background: var(--color-surface);
+}
+
+.section--navy {
+  background: var(--color-navy-deep);
+  color: var(--color-on-photo);
+}
+
+.section--navy h2,
+.section--navy h3 {
+  color: var(--color-on-photo);
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: var(--text-micro);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-orange-deep);
+  margin-bottom: var(--space-3);
+}
+
+.section--navy .eyebrow {
+  color: var(--color-orange);
+}
