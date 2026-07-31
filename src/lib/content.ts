@@ -11,7 +11,7 @@ import { photoUrl } from './images';
 export const ORG = {
   name: 'Resilient Cities Catalyst',
   shortName: 'RCC',
-  tagline: 'We accelerate action and build capacity within communities, cities and regions.',
+  tagline: 'We accelerate action and build capacity within communities, cities and regions. We work togheter for better results...',
   mission:
     'Fostering safer, healthier, and more prosperous communities despite the growing challenges posed by climate change.',
   founded: 2020,
