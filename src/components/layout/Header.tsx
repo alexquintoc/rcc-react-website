@@ -8,6 +8,7 @@ import './Header.css';
 
 export function Header() {
   const { path } = useRouter();
+  const isHome3 = path === '/' || path === '/home-3';
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -71,10 +72,18 @@ export function Header() {
       <header ref={headerRef} className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
         <div className="container site-header__bar">
           <Link to="/" className="site-header__mark" aria-label={`${ORG.name}, home`}>
-            <span className="site-header__mark-full">{ORG.name}</span>
-            <span className="site-header__mark-short" aria-hidden="true">
-              RCC
-            </span>
+            {isHome3 ? (
+              <img
+                className="site-header__logo"
+                src="https://6years.rcc.city/wp-content/uploads/2024/11/RCC-Logo_Horizontal-Logo-Full-Color-1.png"
+                alt={ORG.name}
+              />
+            ) : (
+              <>
+                <span className="site-header__mark-full">{ORG.name}</span>
+                <span className="site-header__mark-short" aria-hidden="true">RCC</span>
+              </>
+            )}
           </Link>
 
           <nav className="site-header__nav" aria-label="Primary">

@@ -20,6 +20,15 @@
   margin-bottom: var(--space-3);
 }
 
+.site-footer__logo {
+  width: min(260px, 100%);
+  height: auto;
+  max-height: 76px;
+  object-fit: contain;
+  object-position: left center;
+  margin-bottom: var(--space-4);
+}
+
 .site-footer__tagline {
   max-width: 32ch;
   font-size: var(--text-small);

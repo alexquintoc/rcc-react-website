@@ -1,15 +1,26 @@
 import { Link } from '../../lib/router';
+import { useRouter } from '../../lib/useRouter';
 import { FOOTER, ORG } from '../../lib/content';
 import './Footer.css';
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const { path } = useRouter();
+  const isHome3 = path === '/' || path === '/home-3';
 
   return (
     <footer className="site-footer">
       <div className="container site-footer__grid">
         <div className="site-footer__brand">
-          <p className="site-footer__wordmark">{ORG.name}</p>
+          {isHome3 ? (
+            <img
+              className="site-footer__logo"
+              src="https://6years.rcc.city/wp-content/uploads/2024/11/RCC-Logo_Horizontal-Logo-White-scaled.png"
+              alt={ORG.name}
+            />
+          ) : (
+            <p className="site-footer__wordmark">{ORG.name}</p>
+          )}
           <p className="site-footer__tagline">{ORG.tagline}</p>
         </div>
 

@@ -43,18 +43,21 @@ const projects = [
     place: 'Southern California',
     title: 'Coastal resilience',
     image: photoUrl('rcc-goleta-oceanside-coast', 900, 720),
+    home3Image: 'https://images.squarespace-cdn.com/content/v1/5dba154a6b94a433b56a2b1d/63260a1a-7379-4c7c-8474-fa284b023471/Binational+Resilience+Fund+Option+1.jpg',
     to: '/california-v2/',
   },
   {
     place: 'Brooklyn, New York',
     title: 'Small business resilience',
     image: photoUrl('rcc-brownsville-corridor', 900, 720),
+    home3Image: 'https://images.squarespace-cdn.com/content/v1/5dba154a6b94a433b56a2b1d/baa9c8b2-61fc-4659-8cc9-486e5c0616f0/DSCF2347_VSCO+%281%29%281%29.JPG',
     to: '/impact-stories/',
   },
   {
     place: 'Tampa, Florida',
     title: 'Extreme heat response',
     image: photoUrl('rcc-tampa-extreme-heat', 900, 720),
+    home3Image: 'https://images.squarespace-cdn.com/content/v1/5dba154a6b94a433b56a2b1d/7fcf5bf8-2888-431d-af84-cdb3c2458287/tampa-impact-story-01.jpg',
     to: '/programs/',
   },
 ];
@@ -66,6 +69,27 @@ const partnerLogos = [
   { name: 'Climate Investment Funds', src: 'https://6years.rcc.city/wp-content/uploads/2026/03/0000_cif.webp' },
   { name: 'Climate Community Foundation Los Angeles', src: 'https://6years.rcc.city/wp-content/uploads/2026/03/logo-ccfla.webp' },
   { name: 'Gold Standard', src: 'https://6years.rcc.city/wp-content/uploads/2026/03/goldstandard.webp' },
+];
+
+const newsItems = [
+  {
+    date: 'June 2, 2026',
+    title: 'Four Community-Led Projects Selected for California Resilience Implementation Accelerator',
+    excerpt: 'Four winning projects will expand locally led resilience efforts across California.',
+    image: 'https://6years.rcc.city/wp-content/uploads/2026/06/Screenshot2026-04-29at11.39.48-AM.webp',
+  },
+  {
+    date: 'June 2, 2026',
+    title: 'Non-profit rolls out unique climate-resilient pilot in Brownsville',
+    excerpt: 'A neighborhood pilot is transforming bus stops into green-roof shelters built for a changing climate.',
+    image: 'https://6years.rcc.city/wp-content/uploads/2026/06/brownsville-2026-04-10155235.webp',
+  },
+  {
+    date: 'March 5, 2026',
+    title: 'MCAP at COP29',
+    excerpt: 'RCC brings practical pathways for resilient investment and implementation to the global climate conversation.',
+    image: 'https://6years.rcc.city/wp-content/uploads/2026/03/MCAP.webp',
+  },
 ];
 
 interface Home2PageProps {
@@ -200,7 +224,9 @@ export function Home2Page({ variant = 'default' }: Home2PageProps = {}) {
           <div className="home2-projects">
             {projects.map((project) => (
               <Link to={project.to} className="home2-project" key={project.title}>
-                <div className="home2-project__image photo"><img src={project.image} alt="" /></div>
+                <div className="home2-project__image photo">
+                  <img src={imageHero ? project.home3Image : project.image} alt={`${project.title} in ${project.place}`} />
+                </div>
                 <p>{project.place}</p><h3>{project.title}</h3><ArrowRight weight="bold" aria-hidden="true" />
               </Link>
             ))}
@@ -223,6 +249,34 @@ export function Home2Page({ variant = 'default' }: Home2PageProps = {}) {
           )}
         </div>
       </section>
+
+      {imageHero && (
+        <section className="home2-news" aria-labelledby="news-title">
+          <div className="container">
+            <div className="home2-heading-row">
+              <div>
+                <p className="home2-kicker">News</p>
+                <h2 id="news-title">Ideas and action from the field.</h2>
+              </div>
+              <p>Updates from the communities, partners and practitioners moving resilience forward.</p>
+            </div>
+            <div className="home2-news__grid">
+              {newsItems.map((item) => (
+                <article className="home2-news__card" key={item.title}>
+                  <div className="home2-news__image photo">
+                    <img src={item.image} alt="" loading="lazy" />
+                  </div>
+                  <div className="home2-news__body">
+                    <p className="home2-news__meta"><span>News</span>{item.date}</p>
+                    <h3>{item.title}</h3>
+                    <p className="home2-news__excerpt">{item.excerpt}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="home2-cta" aria-labelledby="cta-title">
         <div className="container home2-cta__inner">

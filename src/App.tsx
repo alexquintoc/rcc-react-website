@@ -10,7 +10,8 @@ import { NotBuiltPage } from './pages/NotBuiltPage';
 import { useRouter } from './lib/useRouter';
 
 const ROUTES: Record<string, () => JSX.Element> = {
-  '/': HomePage,
+  '/': Home3Page,
+  '/home-alt': HomePage,
   '/home-2': Home2Page,
   '/home-3': Home3Page,
   '/mission-impact': MissionImpactPage,

@@ -1,4 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 .home2 { background: var(--color-paper); overflow: hidden; }
+.home3 .home2-eyebrow,
+.home3 .home2-kicker,
+.home3 .home2-hero__lede,
+.home3 .home2-problem__aside > p:nth-child(2),
+.home3 .home2-heading-row > p,
+.home3 .home2-tags,
+.home3 .home2-phases p,
+.home3 .home2-phase__interventions,
+.home3 .home2-case__place,
+.home3 .home2-case__content li,
+.home3 .home2-case__metrics span,
+.home3 .home2-stats dt,
+.home3 .home2-stats dl span,
+.home3 .home2-project p,
+.home3 .home2-cta p {
+  font-family: 'Roboto', Arial, sans-serif;
+}
 .home2 h2 { font-size: var(--text-display-2); }
 .home2 h3 { font-size: var(--text-display-3); }
 .home2-eyebrow,.home2-kicker { color: var(--color-orange-deep); font-size: var(--text-micro); font-weight: 700; letter-spacing: var(--tracking-wide); text-transform: uppercase; }
@@ -79,10 +98,21 @@
 .home2-trusted__logos li { min-height: 140px; padding: var(--space-5); background: var(--color-paper); }
 .home2-trusted__logos img { width: 100%; max-width: 180px; max-height: 72px; object-fit: contain; filter: grayscale(1) contrast(1.05); opacity: .78; transition: opacity var(--duration-fast) var(--ease-standard); }
 .home2-trusted__logos li:hover img { opacity: 1; }
+.home2-news { padding: var(--section-pad-y) 0; background: var(--color-paper); }
+.home2-news__grid { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--space-5); }
+.home2-news__card { display: flex; flex-direction: column; min-width: 0; background: var(--color-surface); border-top: 3px solid var(--color-navy); }
+.home2-news__image { height: 260px; }
+.home2-news__body { display: flex; flex: 1; flex-direction: column; padding: var(--space-5); border: 1px solid var(--color-border); border-top: 0; }
+.home2-news__meta { display: flex; align-items: center; gap: var(--space-3); color: var(--color-text-soft); font-family: 'Roboto',Arial,sans-serif; font-size: var(--text-micro); text-transform: uppercase; letter-spacing: .05em; }
+.home2-news__meta span { color: var(--color-orange-deep); font-weight: 700; }
+.home2-news__card h3 { margin-top: var(--space-4); font-size: 1.55rem; line-height: 1.2; }
+.home2-news__excerpt { margin-top: var(--space-4); color: var(--color-text-soft); font-family: 'Roboto',Arial,sans-serif; font-size: var(--text-small); line-height: var(--leading-normal); }
 .home2-cta { padding: var(--space-10) 0; background: var(--color-sky); text-align: center; }
 .home2-cta__inner { max-width: 900px; }
 .home2-cta .home2-kicker { color: var(--color-navy-deep); }
-.home3 .home2-cta h2 { color: #fff;}
+.home3 .home2-cta .home2-kicker,
+.home3 .home2-cta h2,
+.home3 .home2-cta p:not(.home2-kicker) { color: var(--color-on-photo); }
 .home2-cta h2 { margin-top: var(--space-4); font-size: clamp(2.5rem,5vw,4.5rem); }
 .home2-cta p:not(.home2-kicker) { max-width: 620px; margin: var(--space-5) auto var(--space-6); font-size: var(--text-lead); }
 @media (max-width: 900px) {
@@ -96,6 +126,9 @@
   .home2-stats dl > div:nth-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,.25); }
   .home2-trusted ul { grid-template-columns: repeat(3,1fr); }
   .home2-trusted .home2-trusted__logos { grid-template-columns: repeat(2,1fr); }
+  .home2-news__grid { grid-template-columns: repeat(2,1fr); }
+  .home2-news__card:last-child { grid-column: 1 / -1; }
+  .home2-news__card:last-child .home2-news__image { height: 360px; }
 }
 @media (max-width: 680px) {
   .home2-heading-row { align-items: start; flex-direction: column; }
@@ -111,4 +144,8 @@
   .home2-hero--image-title .home2-hero__media::after { background: linear-gradient(0deg,rgba(16,26,43,.92) 0%,rgba(16,26,43,.58) 66%,rgba(16,26,43,.15) 100%); }
   .home2-hero__media-copy { left: var(--space-5); bottom: var(--space-5); width: calc(100% - 3rem); }
   .home2-hero__media-copy h1 { font-size: clamp(2.35rem,11vw,3.6rem); }
+  .home2-news__grid { grid-template-columns: 1fr; }
+  .home2-news__card:last-child { grid-column: auto; }
+  .home2-news__image,
+  .home2-news__card:last-child .home2-news__image { height: 260px; }
 }
