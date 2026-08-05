@@ -6,6 +6,7 @@ import { Home2Page } from './pages/Home2Page';
 import { Home3Page } from './pages/Home3Page';
 import { MissionImpactPage } from './pages/MissionImpactPage';
 import { CaliforniaPage } from './pages/CaliforniaPage';
+import { CaliforniaAltPage } from './pages/CaliforniaAltPage';
 import { NotBuiltPage } from './pages/NotBuiltPage';
 import { useRouter } from './lib/useRouter';
 
@@ -16,6 +17,7 @@ const ROUTES: Record<string, () => JSX.Element> = {
   '/home-3': Home3Page,
   '/mission-impact': MissionImpactPage,
   '/california-v2': CaliforniaPage,
+  '/california': CaliforniaAltPage,
 };
 
 function App() {

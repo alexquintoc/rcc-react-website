@@ -6,7 +6,7 @@ import './Footer.css';
 export function Footer() {
   const year = new Date().getFullYear();
   const { path } = useRouter();
-  const isHome3 = path === '/' || path === '/home-3';
+  const isHome3 = path === '/' || path === '/home-3' || path === '/california';
 
   return (
     <footer className="site-footer">
