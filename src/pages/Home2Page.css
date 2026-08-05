@@ -61,6 +61,7 @@
 .home2-case > .container > .home2-kicker { margin-bottom: var(--space-5); }
 .home2-case__card { display: grid; grid-template-columns: 1.05fr .95fr; border: 1px solid var(--color-border-strong); }
 .home2-case__image { min-height: 580px; }
+.home3 .home2-case__image img { object-position: center center; }
 .home2-case__content { padding: clamp(2rem,5vw,5rem); }
 .home2-case__place { display: flex; align-items: center; gap: var(--space-2); color: var(--color-navy); font-weight: 600; }
 .home2-case__content h2 { margin-top: var(--space-4); }

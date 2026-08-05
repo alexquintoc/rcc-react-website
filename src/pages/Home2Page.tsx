@@ -179,7 +179,14 @@ export function Home2Page({ variant = 'default' }: Home2PageProps = {}) {
           <p className="home2-kicker">Resilience in action</p>
           <div className="home2-case__card">
             <div className="home2-case__image photo">
-              <img src={photoUrl('rcc-phoenix-shade-corridor', 1200, 1000)} alt="A shaded public space in a resilient city project" />
+              <img
+                src={imageHero
+                  ? 'https://images.squarespace-cdn.com/content/v1/5dba154a6b94a433b56a2b1d/b10d2e50-5680-4ad4-8d97-b7b1a836986f/phoenix-workshop-01.jpg'
+                  : photoUrl('rcc-phoenix-shade-corridor', 1200, 1000)}
+                alt={imageHero
+                  ? 'Community health workers leading an extreme heat resilience workshop in Phoenix'
+                  : 'A shaded public space in a resilient city project'}
+              />
             </div>
             <div className="home2-case__content">
               <p className="home2-case__place"><MapPin weight="fill" aria-hidden="true" /> Phoenix, Arizona</p>
