@@ -7,6 +7,7 @@ import { Home3Page } from './pages/Home3Page';
 import { MissionImpactPage } from './pages/MissionImpactPage';
 import { CaliforniaPage } from './pages/CaliforniaPage';
 import { CaliforniaAltPage } from './pages/CaliforniaAltPage';
+import { OceansidePage } from './pages/OceansidePage';
 import { NotBuiltPage } from './pages/NotBuiltPage';
 import { useRouter } from './lib/useRouter';
 
@@ -18,6 +19,7 @@ const ROUTES: Record<string, () => JSX.Element> = {
   '/mission-impact': MissionImpactPage,
   '/california-v2': CaliforniaPage,
   '/california': CaliforniaAltPage,
+  '/ca-oceanside-rebeach': OceansidePage,
 };
 
 function App() {
