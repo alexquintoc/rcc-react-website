@@ -16,6 +16,7 @@ import {
   Waves,
 } from '@phosphor-icons/react';
 import { Button } from '../components/ui/Button';
+import { Link } from '../lib/router';
 import { MetadataTiles } from '../components/ui/MetadataTiles';
 import './CaliforniaAltPage.css';
 
@@ -58,7 +59,7 @@ const programs = [
   { icon: Waves, title: 'California Coastal Accelerator' },
   { icon: Tree, title: 'Goleta Slough' },
   { icon: Fire, title: 'Los Angeles Wildfire Recovery' },
-  { icon: Sun, title: 'Re:Beach Oceanside' },
+  { icon: Sun, title: 'Re:Beach Oceanside', to: '/ca-oceanside-rebeach' },
   { icon: Buildings, title: 'Resilience Districts Incubator' },
   { icon: Blueprint, title: 'California Project Preparation Initiative' },
   { icon: Bridge, title: 'Binational Resilience' },
@@ -190,11 +191,21 @@ export function CaliforniaAltPage() {
           <div className="cali-programs__grid">
             {programs.map((program, index) => {
               const Icon = program.icon;
-              return (
-                <article className="cali-program" key={program.title}>
+              const content = (
+                <>
                   <p className="cali-program__number">{String(index + 1).padStart(2, '0')}</p>
                   <Icon weight="duotone" aria-hidden="true" />
                   <h3>{program.title}</h3>
+                </>
+              );
+
+              if ('to' in program && program.to) {
+                return <Link className="cali-program cali-program--link" to={program.to} key={program.title}>{content}</Link>;
+              }
+
+              return (
+                <article className="cali-program" key={program.title}>
+                  {content}
                 </article>
               );
             })}
