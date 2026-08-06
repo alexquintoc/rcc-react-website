@@ -4,15 +4,10 @@
 .oceanside-hero h1 { max-width: 940px; }
 .oceanside-hero .cali-hero__lead { max-width: 760px; }
 .oceanside-hero .cali-hero__content { align-self: center; padding-block: clamp(3.5rem, 7vw, 6rem); }
-.oceanside-draft-note { padding: var(--space-4) var(--space-5); border-left: 4px solid var(--color-orange-deep); background: #fff4d4; color: var(--color-text-soft); font: 500 var(--text-small)/1.55 'Roboto', Arial, sans-serif; }
-
 .oceanside-data-section,
 .oceanside-overview,
 .oceanside-approach-doc,
-.oceanside-partnership,
-.oceanside-communications,
-.oceanside-stories,
-.oceanside-sources { background: var(--color-paper); }
+.oceanside-partnership { background: var(--color-paper); }
 .oceanside-snapshot .metadata-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .oceanside-snapshot .metadata-tiles__item:nth-child(7),
 .oceanside-snapshot .metadata-tiles__item:nth-child(8) { grid-column: auto; }
@@ -20,9 +15,7 @@
 .oceanside-prose__grid { display: grid; grid-template-columns: minmax(260px,.72fr) minmax(0,1.28fr); gap: clamp(2rem,8vw,8rem); align-items: start; }
 .oceanside-prose__copy { max-width: 760px; }
 .oceanside-prose__copy p,
-.oceanside-prose__grid > div > p,
-.oceanside-story-card p,
-.oceanside-quote-note p { margin-top: var(--space-4); color: var(--color-text-soft); font: 400 1.05rem/1.7 'Roboto', Arial, sans-serif; }
+.oceanside-prose__grid > div > p { margin-top: var(--space-4); color: var(--color-text-soft); font: 400 1.05rem/1.7 'Roboto', Arial, sans-serif; }
 
 .oceanside-overview__images { display: grid; grid-template-columns: 1.35fr .65fr; gap: var(--space-5); margin-top: var(--space-8); }
 .oceanside-overview__images .photo { min-height: 320px; }
@@ -72,46 +65,23 @@
 .oceanside-spotlights__list p { margin-top: var(--space-4); color: var(--color-text-soft); font: 400 1rem/1.65 'Roboto', Arial, sans-serif; }
 .oceanside-spotlights__list strong { color: var(--color-navy); }
 
-.oceanside-why-doc,
-.oceanside-positioning { background: var(--color-sky); color: #fff; }
+.oceanside-why-doc { background: var(--color-navy-deep); color: #fff; }
 .oceanside-why-doc h2,
 .oceanside-why-doc p,
-.oceanside-why-doc .cali-kicker,
-.oceanside-positioning h2,
-.oceanside-positioning p,
-.oceanside-positioning .cali-kicker { color: #fff; }
+.oceanside-why-doc .cali-kicker { color: #fff; }
 .oceanside-why-doc .oceanside-prose__copy p { color: rgba(255,255,255,.9); }
-.oceanside-looking-doc { background: var(--color-navy-deep); color: #fff; }
+.oceanside-looking-doc { background: var(--color-sky); color: #fff; }
 .oceanside-looking-doc h2,
 .oceanside-looking-doc p,
 .oceanside-looking-doc .cali-kicker { color: #fff; }
 .oceanside-looking-doc .oceanside-prose__copy p { color: #fff; }
-
-.oceanside-story-card { display: grid; grid-template-columns: auto 1fr; gap: var(--space-6); margin-top: var(--space-8); padding: clamp(1.5rem,4vw,3rem); border: 1px solid var(--color-border-strong); }
-.oceanside-story-card > svg { width: 54px; height: 54px; color: var(--color-orange-deep); }
-.oceanside-story-card h3,
-.oceanside-quote-note h3 { font-size: clamp(1.5rem,2.7vw,2.2rem); }
-.oceanside-quote-note { margin-top: var(--space-5); padding: clamp(1.5rem,4vw,3rem); background: var(--color-surface); }
-
-.oceanside-notes { background: var(--color-surface); }
-.oceanside-sources ol { margin: 0; padding-left: 1.3rem; }
-.oceanside-sources li { padding: var(--space-3) 0; color: var(--color-text-soft); font: 400 1rem/1.55 'Roboto', Arial, sans-serif; }
-.oceanside-checklist { background: var(--color-navy-deep); color: #fff; }
-.oceanside-checklist h2,
-.oceanside-checklist .cali-kicker { color: #fff; }
-.oceanside-checklist ul { display: grid; grid-template-columns: repeat(2,1fr); margin-top: var(--space-8); border-top: 1px solid rgba(255,255,255,.35); border-left: 1px solid rgba(255,255,255,.35); }
-.oceanside-checklist li { display: grid; grid-template-columns: 18px 1fr; gap: var(--space-4); min-height: 110px; padding: var(--space-5); border-right: 1px solid rgba(255,255,255,.35); border-bottom: 1px solid rgba(255,255,255,.35); }
-.oceanside-checklist li span { width: 16px; height: 16px; margin-top: 4px; border: 2px solid var(--color-orange); }
-.oceanside-checklist li p { color: rgba(255,255,255,.9); font: 400 .95rem/1.55 'Roboto', Arial, sans-serif; }
-.oceanside-positioning .btn { margin-top: var(--space-6); }
 
 @media (max-width: 760px) {
   .oceanside-hero { min-height: 620px; }
   .oceanside-prose__grid,
   .oceanside-overview__images,
   .oceanside-approach-doc__grid,
-  .oceanside-spotlights__list article,
-  .oceanside-checklist ul { grid-template-columns: 1fr; }
+  .oceanside-spotlights__list article { grid-template-columns: 1fr; }
   .oceanside-spotlights__list article:nth-child(even) .oceanside-spotlights__image { order: initial; }
   .oceanside-spotlights__image { min-height: 280px; }
   .oceanside-table { min-width: 720px; }
@@ -119,6 +89,5 @@
 }
 
 @media (max-width: 520px) {
-  .oceanside-story-card { grid-template-columns: 1fr; }
   .oceanside-approach-doc__grid article { min-height: auto; }
 }

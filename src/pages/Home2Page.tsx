@@ -44,7 +44,7 @@ const projects = [
     title: 'Coastal resilience',
     image: photoUrl('rcc-goleta-oceanside-coast', 900, 720),
     home3Image: 'https://images.squarespace-cdn.com/content/v1/5dba154a6b94a433b56a2b1d/63260a1a-7379-4c7c-8474-fa284b023471/Binational+Resilience+Fund+Option+1.jpg',
-    to: '/california-v2/',
+    to: '/california/',
   },
   {
     place: 'Brooklyn, New York',

@@ -1,4 +1,4 @@
-import { ArrowDown, Quotes } from '@phosphor-icons/react';
+import { ArrowDown } from '@phosphor-icons/react';
 import { Button } from '../components/ui/Button';
 import { MetadataTiles } from '../components/ui/MetadataTiles';
 import './CaliforniaAltPage.css';
@@ -87,38 +87,6 @@ const partners = [
   ['Residents, businesses, surfers, environmental organizations, and technical advisors', 'Provide local knowledge, evaluate tradeoffs, help shape siting and design, and strengthen accountability and community legitimacy.'],
 ];
 
-const communications = [
-  'Available or publicly referenced: project renderings and diagrams; maps and siting materials; workshop recordings and presentations; community-input summaries; newsletters; press coverage; numerical and physical modeling imagery; BBC StoryWorks / C40 mini-documentary; project photography and drone-based monitoring imagery.',
-  'Primary public links: rebeach.org; RCC Oceanside RE:BEACH project page; City of Oceanside project materials; SANDAG regional pilot materials.',
-  'Internal confirmation recommended: usage rights and high-resolution availability for all photography, renderings, modeling footage, testimonials, and partner logos.',
-];
-
-const communicationNotes = [
-  'Emphasize that RE:BEACH is a pilot and that the final design remains subject to engineering, environmental review, permitting, and performance criteria.',
-  'Describe the concept as a hybrid sand nourishment and retention approach; avoid implying the reef or headlands alone will permanently “solve” erosion.',
-  'Highlight the continuous role of residents, surfers, businesses, environmental interests, scientists, and regional partners in shaping the project.',
-  'Use “Living Speed Bumps” in quotation marks and explain the three-part concept: two artificial headlands, one offshore artificial reef, and beach nourishment.',
-  'Avoid promising outcomes related to surf quality, ecological enhancement, exact beach width, construction date, or long-term cost savings until supported by approved technical findings.',
-  'Confirm RCC’s current contractual role, formal partner list, project period, total program budget, construction funding status, and internal MEL metrics before publication.',
-  'Where possible, connect coastal resilience to public access, community identity, environmental stewardship, and fiscal resilience—not only tourism.',
-];
-
-const sources = [
-  'RCC Program Page Template, pages 1–8: Uploaded Word document provided by the user.',
-  'RE:BEACH Oceanside website: Project overview, design competition, design and engineering, public involvement, and community input pages; accessed August 2026.',
-  'Resilient Cities Catalyst: Oceanside RE:BEACH Pilot project page; Oceanside coastal-resilience impact page; related project updates.',
-  'City of Oceanside / California Coastal Commission / SANDAG references: Public announcements and project materials linked through RE:BEACH and RCC pages.',
-];
-
-const checklist = [
-  'Confirm the official project start date and whether the public page should describe the program period as 2021–present or 2023–present.',
-  'Confirm RCC’s current scope and preferred role language for the engineering, environmental review, permitting, and implementation phases.',
-  'Add RCC MEL totals for stakeholders engaged, partner organizations, formal partnerships, initiatives advanced, funding leveraged, and residents benefiting.',
-  'Confirm the complete funding-partner list and distinguish project-design, monitoring, environmental-review, and future construction funding.',
-  'Verify all technical figures against the latest approved reports, especially sand volumes, model counts, siting dimensions, and project timelines.',
-  'Select an approved quotation and one or two high-resolution images that demonstrate both the community process and the proposed pilot design.',
-];
-
 function DataTable({ columns, rows, className = '' }: { columns: [string, string]; rows: string[][]; className?: string }) {
   return (
     <div className={`oceanside-table-wrap ${className}`}>
@@ -147,8 +115,6 @@ export function OceansidePage() {
           <Button to="#snapshot" showIcon={false}>Explore the project <ArrowDown weight="bold" aria-hidden="true" /></Button>
         </div>
       </section>
-
-      <aside className="oceanside-draft-note"><div className="container">Draft prepared using the RCC Program Page Template and publicly available RE:BEACH, RCC, City of Oceanside, and regional project materials. Fields that require internal confirmation are identified in the notes.</div></aside>
 
       <section id="snapshot" className="cali-section cali-snapshot oceanside-snapshot">
         <div className="container">
@@ -226,33 +192,6 @@ export function OceansidePage() {
 
       <section className="cali-section oceanside-looking-doc">
         <div className="container oceanside-prose__grid"><SectionTitle title="Looking Ahead" /><div className="oceanside-prose__copy"><p>The project team will continue refining the reef and headland designs through modeling, engineering, community engagement, environmental review, and permitting. Near-term work includes completing baseline monitoring, evaluating materials and amenities, advancing the environmental process, confirming sand sourcing and delivery strategies, and developing construction and financing pathways. Over the longer term, the pilot’s measured performance will determine adaptive actions and whether the approach should be expanded along Oceanside’s coastline or applied in other communities.</p></div></div>
-      </section>
-
-      <section className="cali-section oceanside-communications">
-        <div className="container oceanside-prose__grid"><SectionTitle title="Communications Assets" /><ul className="oceanside-text-list">{communications.map((item) => <li key={item}>{item}</li>)}</ul></div>
-      </section>
-
-      <section className="cali-section oceanside-stories">
-        <div className="container">
-          <SectionTitle title="Quotes & Stories" />
-          <div className="oceanside-story-card"><Quotes weight="fill" aria-hidden="true" /><div><h3>Suggested Story: From Public Concern to a Global Search for Solutions</h3><p>After years of beach loss and frustration with temporary nourishment, Oceanside faced pressure to act. Rather than defaulting to a familiar hard-infrastructure solution, the City and RCC opened the challenge to global teams and invited the public into the design process. Residents met directly with designers, questioned tradeoffs, and helped refine concepts over three public workshops. The result was not simply a winning design, but a shared pathway from conflict and uncertainty toward a pilot that could be tested, monitored, and improved in public.</p></div></div>
-          <div className="oceanside-quote-note"><h3>Potential Quote</h3><p>A strong public-facing quote should be selected from an approved City, RCC, community, or partner source. No quotation is inserted here because the reviewed public pages did not provide a short attributable statement suitable for reuse without additional verification.</p></div>
-        </div>
-      </section>
-
-      <section className="cali-section oceanside-notes"><div className="container oceanside-prose__grid"><SectionTitle title="Notes for the Communications Team" /><ul className="oceanside-text-list">{communicationNotes.map((item) => <li key={item}>{item}</li>)}</ul></div></section>
-
-      <section className="cali-section oceanside-sources"><div className="container oceanside-prose__grid"><SectionTitle title="Sources Consulted" /><div><ol>{sources.map((item) => <li key={item}>{item}</li>)}</ol><p className="oceanside-note">Editorial status: Working draft. All figures and roles should be checked against the latest approved project records before publication.</p></div></div></section>
-
-      <section className="cali-section oceanside-checklist"><div className="container"><SectionTitle title="Editorial Verification Checklist" /><ul>{checklist.map((item) => <li key={item}><span aria-hidden="true" /><p>{item}</p></li>)}</ul></div></section>
-
-      <section className="cali-closing oceanside-positioning">
-        <div className="container cali-closing__inner">
-          <p className="cali-kicker">Recommended Web Positioning</p>
-          <h2>Lead with the implementation challenge.</h2>
-          <p>Present RE:BEACH as an RCC project page within a broader coastal resilience or California portfolio. The page should show the design-competition-to-pilot sequence, clarify RCC’s role, and link to the dedicated RE:BEACH site for detailed technical updates and engagement materials.</p>
-          <Button href="https://rebeach.org">Visit RE:BEACH</Button>
-        </div>
       </section>
     </div>
   );
