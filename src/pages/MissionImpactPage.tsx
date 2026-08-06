@@ -5,9 +5,15 @@ import { MilestoneTimeline } from '../components/ui/MilestoneTimeline';
 import { ImpactStoryGrid } from '../components/ui/ImpactStoryGrid';
 import { ResourceList } from '../components/ui/ResourceList';
 import { Reveal } from '../components/layout/Reveal';
-import { IMPACT_STATS, MISSION_IMPACT, PUBLICATIONS } from '../lib/content';
-import { photoUrl } from '../lib/images';
+import { IMPACT_STATS, IMPACT_STORIES, MISSION_IMPACT, PUBLICATIONS } from '../lib/content';
 import './MissionImpactPage.css';
+
+const missionImpactStories = IMPACT_STORIES.map((story, index) => ({
+  ...story,
+  image: index === 0
+    ? 'https://6years.rcc.city/wp-content/uploads/2026/06/brownsville-2026-04-10155235.webp'
+    : 'https://6years.rcc.city/wp-content/uploads/2026/06/Screenshot2026-04-29at11.39.48-AM.webp',
+}));
 
 export function MissionImpactPage() {
   return (
@@ -19,7 +25,11 @@ export function MissionImpactPage() {
             <p>{MISSION_IMPACT.founding}</p>
           </Reveal>
           <Reveal as="div" delay={100} className="mi-intro__photo photo">
-            <img src={photoUrl('rcc-mission-team-fieldwork', 1000, 1300)} alt="" loading="eager" />
+            <img
+              src="https://6years.rcc.city/wp-content/uploads/2026/06/craig-melville-NDIegxhmeWw-unsplash-scaled.jpg"
+              alt="Coastal landscape representing regional climate resilience"
+              loading="eager"
+            />
           </Reveal>
         </div>
       </Section>
@@ -42,14 +52,14 @@ export function MissionImpactPage() {
         <MilestoneTimeline milestones={MISSION_IMPACT.milestones} />
       </Section>
 
-      <Section tone="surface">
+      <Section tone="surface" className="mi-numbers">
         <SectionHeading title="The numbers behind six years" />
         <StatBar stats={IMPACT_STATS} />
       </Section>
 
       <Section tone="paper">
         <SectionHeading title="Impact Stories" action={{ label: 'More impact stories', to: '/impact-stories/' }} />
-        <ImpactStoryGrid />
+        <ImpactStoryGrid stories={missionImpactStories} />
       </Section>
 
       <Section tone="surface">

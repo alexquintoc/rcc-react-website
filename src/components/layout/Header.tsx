@@ -8,7 +8,7 @@ import './Header.css';
 
 export function Header() {
   const { path } = useRouter();
-  const isHome3 = path === '/' || path === '/home-3' || path === '/california' || path === '/ca-oceanside-rebeach';
+  const isHome3 = path === '/' || path === '/home-3' || path === '/mission-impact' || path === '/california' || path === '/ca-oceanside-rebeach';
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);

@@ -1,12 +1,12 @@
-import { IMPACT_STORIES } from '../../lib/content';
+import { IMPACT_STORIES, type ImpactStory } from '../../lib/content';
 import { Link } from '../../lib/router';
 import { Reveal } from '../layout/Reveal';
 import './ImpactStoryGrid.css';
 
-export function ImpactStoryGrid() {
+export function ImpactStoryGrid({ stories = IMPACT_STORIES }: { stories?: ImpactStory[] }) {
   return (
     <div className="story-grid">
-      {IMPACT_STORIES.map((story, index) => (
+      {stories.map((story, index) => (
         <Reveal as="article" key={story.slug} delay={index * 110} className="story-card">
           <Link to={story.slug} className="story-card__link">
             <div className="story-card__photo photo">
