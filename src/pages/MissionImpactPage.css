@@ -1,3 +1,13 @@
+.mission-impact-page p,
+.mission-impact-page li,
+.mission-impact-page dt,
+.mission-impact-page dd,
+.mission-impact-page .section-heading__action,
+.mission-impact-page .story-card__cta,
+.mission-impact-page .resource-card__cta {
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
 .mi-intro {
   display: grid;
   grid-template-columns: 1.3fr 1fr;

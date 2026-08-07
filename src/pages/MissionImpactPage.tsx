@@ -17,7 +17,7 @@ const missionImpactStories = IMPACT_STORIES.map((story, index) => ({
 
 export function MissionImpactPage() {
   return (
-    <>
+    <div className="mission-impact-page">
       <Section tone="paper">
         <div className="mi-intro">
           <Reveal as="div" className="mi-intro__text">
@@ -66,6 +66,6 @@ export function MissionImpactPage() {
         <SectionHeading title="Publications" action={{ label: 'More publications', to: '/publications/' }} />
         <ResourceList resources={PUBLICATIONS} ctaLabel="Read the report" />
       </Section>
-    </>
+    </div>
   );
 }
