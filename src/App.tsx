@@ -1,4 +1,4 @@
-import type { JSX } from 'react';
+﻿import type { JSX } from 'react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { HomePage } from './pages/HomePage';
@@ -9,6 +9,7 @@ import { CaliforniaPage } from './pages/CaliforniaPage';
 import { CaliforniaAltPage } from './pages/CaliforniaAltPage';
 import { OceansidePage } from './pages/OceansidePage';
 import { NotBuiltPage } from './pages/NotBuiltPage';
+import { AustinFluvialDiagramPage } from './pages/AustinFluvialDiagramPage';
 import { useRouter } from './lib/useRouter';
 
 const ROUTES: Record<string, () => JSX.Element> = {
@@ -20,6 +21,7 @@ const ROUTES: Record<string, () => JSX.Element> = {
   '/california-v2': CaliforniaPage,
   '/california': CaliforniaAltPage,
   '/ca-oceanside-rebeach': OceansidePage,
+  '/austin-fluvial-diagram': AustinFluvialDiagramPage,
 };
 
 function App() {
@@ -38,3 +40,4 @@ function App() {
 }
 
 export default App;
+

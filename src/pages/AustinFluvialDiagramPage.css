@@ -1,0 +1,175 @@
+.austin-diagram-page {
+  --austin-ink: #132a2b;
+  --austin-paper: #f7f5ef;
+  --austin-violet: #7c5aa6;
+  min-height: 100dvh;
+  padding: clamp(3rem, 6vw, 6rem) clamp(1rem, 4vw, 4rem) 3rem;
+  background: var(--austin-paper);
+  color: var(--austin-ink);
+}
+
+.austin-diagram__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 3rem;
+  max-width: 1540px;
+  margin: 0 auto 2.25rem;
+  align-items: end;
+}
+
+.austin-diagram__eyebrow {
+  margin-bottom: 1rem;
+  color: #2e6f68;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.austin-diagram__intro h1 {
+  max-width: 900px;
+  color: var(--austin-ink);
+  font-family: var(--font-text);
+  font-size: clamp(2.55rem, 5.3vw, 5.6rem);
+  font-weight: 650;
+  letter-spacing: -.055em;
+  line-height: .98;
+  text-wrap: balance;
+}
+
+.austin-diagram__lede {
+  max-width: 66ch;
+  margin-top: 1.5rem;
+  color: #53605c;
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.55;
+}
+
+.austin-diagram__summary {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .2rem .75rem;
+  min-width: 170px;
+  padding-left: 1.4rem;
+  border-left: 3px solid var(--austin-violet);
+}
+
+.austin-diagram__summary strong { font-size: 1.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.austin-diagram__summary span { color: #66716d; font-size: .84rem; }
+
+.austin-diagram__workspace {
+  position: relative;
+  max-width: 1540px;
+  margin: 0 auto;
+  background: #eeece5;
+  border: 1px solid #d8d4ca;
+  border-radius: 14px;
+  box-shadow: 0 18px 55px rgba(35, 50, 46, .09);
+  overflow: hidden;
+}
+
+.austin-diagram__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .75rem;
+  background: #fff;
+  border-bottom: 1px solid #d8d4ca;
+}
+
+.austin-diagram__search {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  min-width: min(370px, 42vw);
+  padding: .48rem .7rem;
+  color: #61706b;
+  background: #f4f2ed;
+  border: 1px solid transparent;
+  border-radius: 5px;
+}
+
+.austin-diagram__search:focus-within { border-color: #2e6f68; box-shadow: 0 0 0 2px rgba(46,111,104,.16); }
+.austin-diagram__search input { width: 100%; border: 0; outline: 0; background: transparent; font-size: .9rem; }
+.austin-diagram__actions { display: flex; align-items: center; gap: .35rem; }
+.austin-diagram__actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  gap: .38rem;
+  padding: .45rem .65rem;
+  background: #fff;
+  border: 1px solid #d4d0c7;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease, border-color 180ms ease;
+}
+.austin-diagram__actions button:hover { background: #f0eee8; border-color: #a8a49b; }
+.austin-diagram__actions button:active { transform: translateY(1px); }
+.austin-diagram__actions .austin-diagram__export { padding-inline: .8rem; color: #fff; background: #294e4b; border-color: #294e4b; font-size: .78rem; font-weight: 700; letter-spacing: .05em; }
+.austin-diagram__actions .austin-diagram__export:hover { background: #1f403e; }
+.austin-diagram__separator { width: 1px; height: 26px; margin-inline: .25rem; background: #d8d4ca; }
+.austin-diagram__zoom-level {
+  min-width: 3.1rem;
+  color: #53605c;
+  font-size: .75rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-align: center;
+}
+
+.austin-diagram__column-headings {
+  display: grid;
+  grid-template-columns: 30% 36% 34%;
+  padding: 1rem 2rem .85rem;
+  color: #59645f;
+  background: #f7f5ef;
+  border-bottom: 1px solid #ddd9cf;
+  font-size: .7rem;
+  font-weight: 750;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+
+.austin-diagram__canvas { position: relative; height: min(72vh, 830px); min-height: 570px; overflow: hidden; overscroll-behavior: contain; background-color: #f7f5ef; background-image: radial-gradient(#d9d5cb 1px, transparent 1px); background-size: 18px 18px; }
+.austin-diagram__canvas svg { width: 100%; height: 100%; max-width: none; cursor: grab; touch-action: none; user-select: none; }
+.austin-diagram__canvas svg:active { cursor: grabbing; }
+.austin-diagram__viewport { transform-origin: 0 0; transition: opacity 180ms ease; }
+.austin-diagram__node { cursor: pointer; transition: opacity 220ms ease; }
+.austin-diagram__node:hover { filter: brightness(.97); }
+.austin-diagram__hint { position: absolute; right: 1rem; bottom: .85rem; padding: .42rem .65rem; color: #5f6965; background: rgba(247,245,239,.88); border: 1px solid rgba(168,164,155,.7); border-radius: 4px; font-size: .72rem; backdrop-filter: blur(8px); }
+
+.austin-diagram__detail {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  width: min(560px, calc(100% - 2rem));
+  padding: 1rem 1.1rem;
+  color: #e8efec;
+  background: rgba(19,42,43,.94);
+  border-radius: 8px;
+  box-shadow: 0 12px 35px rgba(19,42,43,.18);
+  backdrop-filter: blur(10px);
+}
+.austin-diagram__detail:not(.is-open) { width: auto; padding: .65rem .85rem; color: #40504b; background: rgba(247,245,239,.9); font-size: .78rem; }
+.austin-diagram__detail > div { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .55rem; }
+.austin-diagram__detail span { color: #a9d1c6; font-size: .68rem; font-weight: 750; letter-spacing: .11em; text-transform: uppercase; }
+.austin-diagram__detail button { color: #fff; background: transparent; border: 0; font-size: 1.5rem; line-height: 1; cursor: pointer; }
+.austin-diagram__detail p { font-size: .9rem; line-height: 1.45; }
+.austin-diagram__source { max-width: 1540px; margin: 1.15rem auto 0; color: #6b746f; font-size: .75rem; }
+
+@media (max-width: 760px) {
+  .austin-diagram-page { padding-inline: .75rem; }
+  .austin-diagram__intro { grid-template-columns: 1fr; gap: 1.5rem; }
+  .austin-diagram__summary { grid-template-columns: auto auto; justify-content: start; }
+  .austin-diagram__toolbar { align-items: stretch; flex-direction: column; }
+  .austin-diagram__search { min-width: 100%; }
+  .austin-diagram__actions { overflow-x: auto; padding-bottom: .15rem; }
+  .austin-diagram__column-headings { padding-inline: 1rem; font-size: .6rem; }
+  .austin-diagram__canvas { min-height: 520px; height: 68vh; }
+  .austin-diagram__hint { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) { .austin-diagram__node, .austin-diagram__actions button { transition: none; } }
