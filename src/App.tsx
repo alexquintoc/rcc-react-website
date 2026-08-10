@@ -27,14 +27,15 @@ const ROUTES: Record<string, () => JSX.Element> = {
 function App() {
   const { path } = useRouter();
   const Page = ROUTES[path] ?? NotBuiltPage;
+  const isAustinDiagram = path === '/austin-fluvial-diagram';
 
   return (
     <>
-      <Header />
-      <main id="main" tabIndex={-1}>
+      {!isAustinDiagram && <Header />}
+      <main id="main" tabIndex={-1} className={isAustinDiagram ? 'austin-diagram-shell' : undefined}>
         <Page />
       </main>
-      <Footer />
+      {!isAustinDiagram && <Footer />}
     </>
   );
 }

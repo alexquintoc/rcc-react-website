@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
 import { ArrowCounterClockwise, DownloadSimple, MagnifyingGlass, Minus, Plus } from '@phosphor-icons/react';
+import geistRegularUrl from '../assets/fonts/Geist-Regular.woff2?url';
+import geistBoldUrl from '../assets/fonts/Geist-Bold.woff2?url';
 import './AustinFluvialDiagramPage.css';
 
 const GOALS = [
@@ -49,7 +51,8 @@ const LEVERS: readonly Lever[] = [
   ['Environment and Neighborhood', 'Heat Disparity', [11, 5, 6, 1, 7, 8]],
 ] as const;
 
-const COLORS = ['#2E6F68', '#7C5AA6', '#D36B4A', '#167F9A', '#8B6F47', '#5D7D3E'];
+const COLORS = ['#44499C', '#008743', '#F83125', '#009CDE', '#9F3CC9', '#8F5201'];
+const THEME_TEXT_COLORS = ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#22254E', '#FFFFFF', '#FFFFFF'];
 const W = 1900;
 const THEME_X = 48;
 const LEVER_X = 600;
@@ -92,8 +95,21 @@ function downloadBlob(blob: Blob, name: string) {
   const anchor = document.createElement('a');
   anchor.href = url;
   anchor.download = name;
+  document.body.appendChild(anchor);
   anchor.click();
-  URL.revokeObjectURL(url);
+  anchor.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+async function fontDataUrl(url: string) {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
 }
 
 export function AustinFluvialDiagramPage() {
@@ -101,6 +117,7 @@ export function AustinFluvialDiagramPage() {
   const dragRef = useRef<{ x: number; y: number; panX: number; panY: number } | null>(null);
   const [view, setView] = useState({ scale: 1, x: 22, y: 18 });
   const [selection, setSelection] = useState<Selection>(null);
+  const [themeFilter, setThemeFilter] = useState<number | null>(null);
   const [query, setQuery] = useState('');
 
   const themes = useMemo(() => Array.from(new Set(LEVERS.map((lever) => lever[0]))), []);
@@ -135,6 +152,12 @@ export function AustinFluvialDiagramPage() {
 
   const queryMatch = (text: string) => !query || text.toLowerCase().includes(query.toLowerCase());
   const nodeOpacity = (type: NodeType, index: number, text: string) => (related(type, index) && queryMatch(text) ? 1 : 0.16);
+  const visibleForThemeFilter = (type: NodeType, index: number) => {
+    if (themeFilter === null) return true;
+    if (type === 'theme') return index === themeFilter;
+    if (type === 'lever') return themeIndex(LEVERS[index][0]) === themeFilter;
+    return LEVERS.some((lever) => themeIndex(lever[0]) === themeFilter && lever[2].includes(index));
+  };
 
   const selectedText = selection?.type === 'theme'
     ? themes[selection.index]
@@ -184,31 +207,171 @@ export function AustinFluvialDiagramPage() {
   };
   const onPointerUp = () => { dragRef.current = null; };
 
-  const svgBlob = () => {
+  const svgBlob = async () => {
     if (!svgRef.current) return null;
+    const [regularFont, boldFont] = await Promise.all([fontDataUrl(geistRegularUrl), fontDataUrl(geistBoldUrl)]);
     const clone = svgRef.current.cloneNode(true) as SVGSVGElement;
+
+    const exportThemeWidth = 330;
+    const exportThemeLines = themes.map((theme) => lines(theme, 21, 4));
+    const exportLeverWidth = 380;
+    const exportGoalWidth = 1700;
+    const exportGoalLines = GOALS.map((goal) => lines(goal, 130));
+    const compactLineHeight = 26;
+    const compactGoalGap = 5;
+    const compactGoals = exportGoalLines.reduce<Array<{ y: number; height: number }>>((layouts, goalLines) => {
+      const height = Math.max(52, goalLines.length * compactLineHeight + 20);
+      const y = layouts.length ? layouts[layouts.length - 1].y + layouts[layouts.length - 1].height + compactGoalGap : 18;
+      layouts.push({ y, height });
+      return layouts;
+    }, []);
+    const compactHeight = compactGoals[compactGoals.length - 1].y + compactGoals[compactGoals.length - 1].height + 18;
+    const compactLeverY = (index: number) => 8 + index * ((compactHeight - 62) / (LEVERS.length - 1));
+    const compactThemeBounds = (index: number) => {
+      const members = LEVERS.map((lever, i) => ({ lever, i })).filter(({ lever }) => themeIndex(lever[0]) === index);
+      const first = compactLeverY(members[0].i) + 2;
+      const last = compactLeverY(members[members.length - 1].i) + 38;
+      return { y: first, height: last - first };
+    };
+
+    const exportWidth = 2400;
+    const exportHeight = 1350;
+    const headerHeight = 106;
+    const margin = 12;
+    const exportContentStartX = THEME_X;
+    const exportContentWidth = GOAL_X + exportGoalWidth - exportContentStartX;
+    const fitScale = Math.min((exportWidth - margin * 2) / exportContentWidth, (exportHeight - headerHeight - margin) / compactHeight);
+    const offsetX = margin - exportContentStartX * fitScale;
+    const offsetY = headerHeight + (exportHeight - headerHeight - compactHeight * fitScale) / 2;
+
     clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-    clone.setAttribute('width', String(W));
-    clone.setAttribute('height', String(H));
-    clone.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    clone.querySelector('.austin-diagram__viewport')?.setAttribute('transform', 'translate(0 0) scale(1)');
+    clone.setAttribute('width', String(exportWidth));
+    clone.setAttribute('height', String(exportHeight));
+    clone.setAttribute('viewBox', `0 0 ${exportWidth} ${exportHeight}`);
+    clone.setAttribute('style', "font-family:'Geist',Arial,sans-serif");
+    clone.querySelector('.austin-diagram__viewport')?.setAttribute('transform', `translate(${offsetX} ${offsetY}) scale(${fitScale})`);
+    clone.querySelectorAll('.austin-diagram__node').forEach((node) => {
+      node.setAttribute('opacity', '1');
+      node.removeAttribute('display');
+    });
+    clone.querySelectorAll('path').forEach((path) => {
+      path.removeAttribute('display');
+      path.setAttribute('stroke-opacity', '0.42');
+    });
+
+    clone.querySelectorAll<SVGGElement>('[data-node-kind="theme"]').forEach((node) => {
+      const index = Number(node.dataset.nodeIndex);
+      const bounds = compactThemeBounds(index);
+      const rect = node.querySelector('rect');
+      const texts = node.querySelectorAll('text');
+      rect?.setAttribute('y', String(bounds.y));
+      rect?.setAttribute('height', String(bounds.height));
+      rect?.setAttribute('width', String(exportThemeWidth));
+      if (texts[0]) {
+        texts[0].replaceChildren();
+        texts[0].setAttribute('y', String(bounds.y + 25));
+        texts[0].setAttribute('font-size', '23');
+        exportThemeLines[index].forEach((line, lineIndex) => {
+          const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+          tspan.textContent = line;
+          tspan.setAttribute('x', String(THEME_X + 18));
+          tspan.setAttribute('dy', lineIndex ? '24' : '0');
+          texts[0].appendChild(tspan);
+        });
+      }
+      texts[1]?.setAttribute('y', String(bounds.y + bounds.height - 8));
+      texts[1]?.setAttribute('font-size', '15.5');
+    });
+
+    clone.querySelectorAll<SVGGElement>('[data-node-kind="lever"]').forEach((node) => {
+      const index = Number(node.dataset.nodeIndex);
+      const y = compactLeverY(index);
+      const rects = node.querySelectorAll('rect');
+      rects.forEach((rect) => rect.setAttribute('y', String(y)));
+      rects[0]?.setAttribute('width', String(exportLeverWidth));
+      node.querySelector('text')?.setAttribute('y', String(y + 20));
+      node.querySelector('text')?.setAttribute('font-size', '18.5');
+    });
+
+    clone.querySelectorAll<SVGGElement>('[data-node-kind="goal"]').forEach((node) => {
+      const index = Number(node.dataset.nodeIndex);
+      const layout = compactGoals[index];
+      const rect = node.querySelector('rect');
+      const texts = node.querySelectorAll('text');
+      const circle = node.querySelector('circle');
+      rect?.setAttribute('y', String(layout.y));
+      rect?.setAttribute('height', String(layout.height));
+      rect?.setAttribute('width', String(exportGoalWidth));
+      if (texts[0]) {
+        texts[0].replaceChildren();
+        texts[0].setAttribute('y', String(layout.y + 25));
+        texts[0].setAttribute('font-size', '21.6');
+        exportGoalLines[index].forEach((line, lineIndex) => {
+          const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+          tspan.textContent = line;
+          tspan.setAttribute('x', String(GOAL_X + 18));
+          tspan.setAttribute('dy', lineIndex ? String(compactLineHeight) : '0');
+          texts[0].appendChild(tspan);
+        });
+      }
+      circle?.setAttribute('cx', String(GOAL_X + exportGoalWidth - 18));
+      circle?.setAttribute('cy', String(layout.y + 18));
+      texts[1]?.setAttribute('x', String(GOAL_X + exportGoalWidth - 18));
+      texts[1]?.setAttribute('y', String(layout.y + 23));
+      texts[1]?.setAttribute('font-size', '14.4');
+    });
+
+    clone.querySelectorAll<SVGPathElement>('[data-link-kind="theme"]').forEach((path) => {
+      const leverIndex = Number(path.dataset.leverIndex);
+      const theme = themeIndex(LEVERS[leverIndex][0]);
+      const bounds = compactThemeBounds(theme);
+      const targetY = compactLeverY(leverIndex) + 20;
+      path.setAttribute('d', `M ${THEME_X + exportThemeWidth} ${bounds.y + bounds.height / 2} C 440 ${bounds.y + bounds.height / 2}, 475 ${targetY}, ${LEVER_X} ${targetY}`);
+    });
+
+    clone.querySelectorAll<SVGPathElement>('[data-link-kind="goal"]').forEach((path) => {
+      const leverIndex = Number(path.dataset.leverIndex);
+      const goalIndex = Number(path.dataset.goalIndex);
+      const sourceY = compactLeverY(leverIndex) + 20;
+      const targetY = compactGoals[goalIndex].y + compactGoals[goalIndex].height / 2;
+      path.setAttribute('d', `M ${LEVER_X + exportLeverWidth} ${sourceY} C 1110 ${sourceY}, 1240 ${targetY}, ${GOAL_X} ${targetY}`);
+    });
+
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+    style.textContent = `@font-face{font-family:Geist;src:url('${regularFont}') format('woff2');font-weight:400}@font-face{font-family:Geist;src:url('${boldFont}') format('woff2');font-weight:700}text{font-family:Geist,Arial,sans-serif}`;
+    defs.appendChild(style);
     const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    bg.setAttribute('width', '100%'); bg.setAttribute('height', '100%'); bg.setAttribute('fill', '#F7F5EF');
+    bg.setAttribute('width', '100%'); bg.setAttribute('height', '100%'); bg.setAttribute('fill', '#F7F6F5');
     clone.insertBefore(bg, clone.firstChild);
+    clone.insertBefore(defs, bg.nextSibling);
+
+    const addExportText = (value: string, x: number, y: number, size: number, weight: number, fill = '#22254E') => {
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.textContent = value;
+      text.setAttribute('x', String(x)); text.setAttribute('y', String(y));
+      text.setAttribute('font-size', String(size)); text.setAttribute('font-weight', String(weight)); text.setAttribute('fill', fill);
+      clone.appendChild(text);
+    };
+    addExportText("Austin's economic mobility levers", margin, 42, 32.4, 700);
+    addExportText('6 subthemes · 18 mobility levers · 21 annual goals · 65 connections', margin, 73, 16.8, 400, '#636262');
+    addExportText('SUBTHEMES', offsetX + THEME_X * fitScale, 98, 14.4, 700, '#44499C');
+    addExportText('MOBILITY LEVERS', offsetX + LEVER_X * fitScale, 98, 14.4, 700, '#44499C');
+    addExportText("CITY MANAGER'S ANNUAL GOALS", offsetX + GOAL_X * fitScale, 98, 14.4, 700, '#44499C');
     return new Blob([new XMLSerializer().serializeToString(clone)], { type: 'image/svg+xml;charset=utf-8' });
   };
-  const exportSvg = () => { const blob = svgBlob(); if (blob) downloadBlob(blob, 'austin-economic-mobility-fluvial.svg'); };
-  const exportPng = () => {
-    const blob = svgBlob();
+  const exportSvg = async () => { const blob = await svgBlob(); if (blob) downloadBlob(blob, 'austin-economic-mobility-fluvial-16x9.svg'); };
+  const exportPng = async () => {
+    const blob = await svgBlob();
     if (!blob) return;
     const url = URL.createObjectURL(blob);
     const image = new Image();
     image.onload = () => {
-      const canvas = document.createElement('canvas'); canvas.width = W * 2; canvas.height = H * 2;
+      const canvas = document.createElement('canvas'); canvas.width = 4800; canvas.height = 2700;
       const context = canvas.getContext('2d');
       if (!context) return;
-      context.scale(2, 2); context.drawImage(image, 0, 0, W, H);
-      canvas.toBlob((png) => png && downloadBlob(png, 'austin-economic-mobility-fluvial.png'), 'image/png');
+      context.drawImage(image, 0, 0, 4800, 2700);
+      canvas.toBlob((png) => png && downloadBlob(png, 'austin-economic-mobility-fluvial-16x9.png'), 'image/png');
       URL.revokeObjectURL(url);
     };
     image.src = url;
@@ -233,7 +396,7 @@ export function AustinFluvialDiagramPage() {
           <div className="austin-diagram__actions">
             <button type="button" onClick={() => zoom(1.4)} title="Acercar"><Plus size={18} /></button>
             <button type="button" onClick={() => zoom(0.72)} title="Alejar"><Minus size={18} /></button>
-            <button type="button" onClick={() => { setView({ scale: 1, x: 22, y: 18 }); setSelection(null); setQuery(''); }} title="Restablecer"><ArrowCounterClockwise size={18} /></button>
+            <button type="button" onClick={() => { setView({ scale: 1, x: 22, y: 18 }); setSelection(null); setThemeFilter(null); setQuery(''); }} title="Restablecer"><ArrowCounterClockwise size={18} /></button>
             <span className="austin-diagram__zoom-level" aria-live="polite">{Math.round(view.scale * 100)}%</span>
             <span className="austin-diagram__separator" />
             <button type="button" className="austin-diagram__export" onClick={exportPng}><DownloadSimple size={18} /> PNG</button>
@@ -250,36 +413,36 @@ export function AustinFluvialDiagramPage() {
                 {LEVERS.map((lever, leverIndex) => {
                   const tIndex = themeIndex(lever[0]); const bounds = themeBounds(tIndex); const color = COLORS[tIndex];
                   const active = related('lever', leverIndex);
-                  return <path key={`tl-${leverIndex}`} d={`M ${THEME_X + 270} ${bounds.y + bounds.height / 2} C 430 ${bounds.y + bounds.height / 2}, 455 ${leverY(leverIndex) + 20}, ${LEVER_X} ${leverY(leverIndex) + 20}`} stroke={color} strokeWidth="5" strokeOpacity={active ? 0.42 : 0.055} />;
+                  return <path key={`tl-${leverIndex}`} data-link-kind="theme" data-lever-index={leverIndex} display={visibleForThemeFilter('lever', leverIndex) ? undefined : 'none'} d={`M ${THEME_X + 270} ${bounds.y + bounds.height / 2} C 430 ${bounds.y + bounds.height / 2}, 455 ${leverY(leverIndex) + 20}, ${LEVER_X} ${leverY(leverIndex) + 20}`} stroke={color} strokeWidth="5" strokeOpacity={active ? 0.5 : 0.075} />;
                 })}
                 {LEVERS.flatMap((lever, leverIndex) => lever[2].map((goalIndex) => {
                   const color = COLORS[themeIndex(lever[0])]; const active = related('lever', leverIndex) && related('goal', goalIndex);
-                  return <path key={`lg-${leverIndex}-${goalIndex}`} d={`M ${LEVER_X + 280} ${leverY(leverIndex) + 20} C 1090 ${leverY(leverIndex) + 20}, 1220 ${goalY(goalIndex) + goalHeight(goalIndex) / 2}, ${GOAL_X} ${goalY(goalIndex) + goalHeight(goalIndex) / 2}`} stroke={color} strokeWidth={active ? 3.2 : 2.2} strokeOpacity={active ? 0.46 : 0.035} />;
+                  return <path key={`lg-${leverIndex}-${goalIndex}`} data-link-kind="goal" data-lever-index={leverIndex} data-goal-index={goalIndex} display={visibleForThemeFilter('lever', leverIndex) && visibleForThemeFilter('goal', goalIndex) ? undefined : 'none'} d={`M ${LEVER_X + 280} ${leverY(leverIndex) + 20} C 1090 ${leverY(leverIndex) + 20}, 1220 ${goalY(goalIndex) + goalHeight(goalIndex) / 2}, ${GOAL_X} ${goalY(goalIndex) + goalHeight(goalIndex) / 2}`} stroke={color} strokeWidth={active ? 3.2 : 2.2} strokeOpacity={active ? 0.5 : 0.06} />;
                 }))}
               </g>
 
               {themes.map((theme, index) => { const box = themeBounds(index); const opacity = nodeOpacity('theme', index, theme); return (
-                <g key={theme} className="austin-diagram__node" opacity={opacity} onClick={(event) => { event.stopPropagation(); setSelection({ type: 'theme', index }); }} role="button" tabIndex={0} aria-label={theme}>
+                <g key={theme} className="austin-diagram__node austin-diagram__theme-node" data-node-kind="theme" data-node-index={index} display={visibleForThemeFilter('theme', index) ? undefined : 'none'} opacity={opacity} onPointerDown={(event) => event.stopPropagation()} onClick={(event) => { event.stopPropagation(); const isActive = themeFilter === index; setThemeFilter(isActive ? null : index); setSelection(isActive ? null : { type: 'theme', index }); }} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); const isActive = themeFilter === index; setThemeFilter(isActive ? null : index); setSelection(isActive ? null : { type: 'theme', index }); } }} role="button" tabIndex={0} aria-pressed={themeFilter === index} aria-label={`${theme}. ${themeFilter === index ? 'Mostrar todos' : 'Mostrar solo conexiones relacionadas'}`}>
                   <rect x={THEME_X} y={box.y} width="270" height={box.height} rx="8" fill={COLORS[index]} />
-                  <text x={THEME_X + 24} y={box.y + 34} fill="#fff" fontSize="19" fontWeight="650">{lines(theme, 25, 4).map((line, i) => <tspan key={line} x={THEME_X + 24} dy={i ? 25 : 0}>{line}</tspan>)}</text>
-                  <text x={THEME_X + 24} y={box.y + box.height - 20} fill="rgba(255,255,255,.78)" fontSize="13">{LEVERS.filter((lever) => lever[0] === theme).length} levers</text>
+                  <text x={THEME_X + 24} y={box.y + 34} fill={THEME_TEXT_COLORS[index]} fontSize="19" fontWeight="700">{lines(theme, 25, 4).map((line, i) => <tspan key={line} x={THEME_X + 24} dy={i ? 25 : 0}>{line}</tspan>)}</text>
+                  <text x={THEME_X + 24} y={box.y + box.height - 20} fill={THEME_TEXT_COLORS[index]} opacity="0.78" fontSize="13">{LEVERS.filter((lever) => lever[0] === theme).length} levers</text>
                 </g>
               ); })}
 
               {LEVERS.map((lever, index) => { const color = COLORS[themeIndex(lever[0])]; const opacity = nodeOpacity('lever', index, lever[1]); return (
-                <g key={lever[1]} className="austin-diagram__node" opacity={opacity} onClick={(event) => { event.stopPropagation(); setSelection({ type: 'lever', index }); }} role="button" tabIndex={0} aria-label={lever[1]}>
-                  <rect x={LEVER_X} y={leverY(index)} width="280" height="46" rx="6" fill="#fff" stroke={color} strokeWidth="2" />
+                <g key={lever[1]} className="austin-diagram__node" data-node-kind="lever" data-node-index={index} display={visibleForThemeFilter('lever', index) ? undefined : 'none'} opacity={opacity} onClick={(event) => { event.stopPropagation(); setSelection({ type: 'lever', index }); }} role="button" tabIndex={0} aria-label={lever[1]}>
+                  <rect x={LEVER_X} y={leverY(index)} width="280" height="46" rx="6" fill="#F7F6F5" stroke={color} strokeWidth="2" />
                   <rect x={LEVER_X} y={leverY(index)} width="8" height="46" rx="4" fill={color} />
-                  <text x={LEVER_X + 22} y={leverY(index) + 20} fill="#132A2B" fontSize="15.5" fontWeight="600">{lines(lever[1], 31, 2).map((line, i) => <tspan key={line} x={LEVER_X + 22} dy={i ? 17 : 0}>{line}</tspan>)}</text>
+                  <text x={LEVER_X + 22} y={leverY(index) + 20} fill="#22254E" fontSize="15.5" fontWeight="700">{lines(lever[1], 31, 2).map((line, i) => <tspan key={line} x={LEVER_X + 22} dy={i ? 17 : 0}>{line}</tspan>)}</text>
                 </g>
               ); })}
 
               {GOALS.map((goal, index) => { const connected = LEVERS.filter((lever) => lever[2].includes(index)).length; const opacity = nodeOpacity('goal', index, goal); return (
-                <g key={goal} className="austin-diagram__node" opacity={opacity} onClick={(event) => { event.stopPropagation(); setSelection({ type: 'goal', index }); }} role="button" tabIndex={0} aria-label={goal}>
-                  <rect x={GOAL_X} y={goalY(index)} width="400" height={goalHeight(index)} rx="6" fill="#fff" stroke="#A8AAA4" strokeWidth="1.2" />
-                  <text x={GOAL_X + 18} y={goalY(index) + 22} fill="#132A2B" fontSize="13.2">{GOAL_LAYOUTS[index].lines.map((line, i) => <tspan key={`${line}-${i}`} x={GOAL_X + 18} dy={i ? GOAL_LINE_HEIGHT : 0}>{line}</tspan>)}</text>
-                  <circle cx={GOAL_X + 382} cy={goalY(index) + 14} r="10" fill="#ECE9E1" />
-                  <text x={GOAL_X + 382} y={goalY(index) + 18} textAnchor="middle" fill="#3D4743" fontSize="10" fontWeight="700">{connected}</text>
+                <g key={goal} className="austin-diagram__node" data-node-kind="goal" data-node-index={index} display={visibleForThemeFilter('goal', index) ? undefined : 'none'} opacity={opacity} onClick={(event) => { event.stopPropagation(); setSelection({ type: 'goal', index }); }} role="button" tabIndex={0} aria-label={goal}>
+                  <rect x={GOAL_X} y={goalY(index)} width="400" height={goalHeight(index)} rx="6" fill={index % 2 ? '#DFF0E3' : '#DCF2FD'} stroke="#44499C" strokeWidth="1.2" />
+                  <text x={GOAL_X + 18} y={goalY(index) + 22} fill="#22254E" fontSize="13.2" fontWeight="400">{GOAL_LAYOUTS[index].lines.map((line, i) => <tspan key={`${line}-${i}`} x={GOAL_X + 18} dy={i ? GOAL_LINE_HEIGHT : 0}>{line}</tspan>)}</text>
+                  <circle cx={GOAL_X + 382} cy={goalY(index) + 14} r="10" fill="#F7F6F5" />
+                  <text x={GOAL_X + 382} y={goalY(index) + 18} textAnchor="middle" fill="#22254E" fontSize="10" fontWeight="700">{connected}</text>
                 </g>
               ); })}
             </g>
