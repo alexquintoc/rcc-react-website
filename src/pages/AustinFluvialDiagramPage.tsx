@@ -357,7 +357,7 @@ export function AustinFluvialDiagramPage() {
     addExportText('6 subthemes · 18 mobility levers · 21 annual goals · 65 connections', margin, 73, 16.8, 400, '#636262');
     addExportText('SUBTHEMES', offsetX + THEME_X * fitScale, 98, 14.4, 700, '#44499C');
     addExportText('MOBILITY LEVERS', offsetX + LEVER_X * fitScale, 98, 14.4, 700, '#44499C');
-    addExportText("CITY MANAGER'S ANNUAL GOALS", offsetX + GOAL_X * fitScale, 98, 14.4, 700, '#44499C');
+    addExportText("CITY MANAGER'S TOP 25 GOALS FOR FISCAL YEAR 2026", offsetX + GOAL_X * fitScale, 98, 14.4, 700, '#44499C');
     return new Blob([new XMLSerializer().serializeToString(clone)], { type: 'image/svg+xml;charset=utf-8' });
   };
   const exportSvg = async () => { const blob = await svgBlob(); if (blob) downloadBlob(blob, 'austin-economic-mobility-fluvial-16x9.svg'); };
@@ -381,7 +381,7 @@ export function AustinFluvialDiagramPage() {
     <article className="austin-diagram-page">
       <header className="austin-diagram__intro">
         <div>
-          <p className="austin-diagram__eyebrow">City Manager’s Top Annual Goals · Economic mobility</p>
+          <p className="austin-diagram__eyebrow">City Manager’s Top 25 Goals for Fiscal Year 2026 - Economic Mobility</p>
           <h1>How Austin’s mobility levers connect to citywide action</h1>
           <p className="austin-diagram__lede">Explore the relationships between six subthemes, 18 indicators, and 21 annual goals. Select any element to isolate its connections.</p>
         </div>
@@ -403,7 +403,7 @@ export function AustinFluvialDiagramPage() {
             <button type="button" className="austin-diagram__export" onClick={exportSvg}><DownloadSimple size={18} /> SVG</button>
           </div>
         </div>
-        <div className="austin-diagram__column-headings" aria-hidden="true"><span>Subthemes</span><span>Mobility levers</span><span>City Manager’s annual goals</span></div>
+        <div className="austin-diagram__column-headings" aria-hidden="true"><span>Subthemes</span><span>Mobility levers</span><span>City Manager’s Top 25 Goals for Fiscal Year 2026</span></div>
         <div className="austin-diagram__canvas">
           <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="austin-flow-title austin-flow-desc" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}>
             <title id="austin-flow-title">Austin economic mobility flow diagram</title>
