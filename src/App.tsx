@@ -17,7 +17,7 @@ const ROUTES: Record<string, () => JSX.Element> = {
   '/home-alt': HomePage,
   '/home-2': Home2Page,
   '/home-3': Home3Page,
-  '/mission-impact': MissionImpactPage,
+  '/impact': MissionImpactPage,
   '/california-v2': CaliforniaPage,
   '/california': CaliforniaAltPage,
   '/ca-oceanside-rebeach': OceansidePage,

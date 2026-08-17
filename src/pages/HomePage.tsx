@@ -17,7 +17,7 @@ export function HomePage() {
         subtitle={ORG.mission}
         image={photoUrl('rcc-community-resilience-hero', 1800, 1350)}
         primaryCta={{ label: 'View our programs', to: '/programs/' }}
-        secondaryCta={{ label: 'See our impact', to: '/mission-impact/' }}
+        secondaryCta={{ label: 'See our impact', to: '/impact/' }}
       />
 
       <Section tone="paper">

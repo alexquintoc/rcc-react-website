@@ -11,7 +11,7 @@ import { photoUrl } from './images';
 export const ORG = {
   name: 'Resilient Cities Catalyst',
   shortName: 'RCC',
-  tagline: 'We accelerate action and build capacity...',
+  tagline: 'We accelerate action and build capacity within communities, cities and regions. We work togheter for better results...',
   mission:
     'Fostering safer, healthier, and more prosperous communities despite the growing challenges posed by climate change.',
   founded: 2020,
@@ -33,44 +33,34 @@ export const NAV: NavItem[] = [
     label: 'About',
     href: '/about/',
     children: [
-      { label: 'Mission & Impact', href: '/mission-impact/' },
-      { label: 'The Team', href: '/team/' },
-      { label: 'Careers', href: '/careers/' },
-      { label: 'Our Partners', href: '/partners/' },
-      { label: 'Support us', href: '/support-us/' },
+      { label: 'About', href: '/about/' },
+      { label: 'Team', href: '/team/' },
+      { label: 'Board of Directors', href: '/board-of-directors/' },
+      { label: 'Contact', href: '/contact/' },
     ],
   },
   {
-    label: 'What We Do',
-    href: '/approach/',
+    label: 'How We Work',
+    href: '/how-we-work/',
+  },
+  {
+    label: 'Portfolio',
+    href: '/portfolio/',
     children: [
-      { label: 'Our Approach', href: '/approach/' },
-      { label: 'Resilience Planning & Roadmaps', href: '/methods/resilience-planning/' },
-      { label: 'Project Development & Implementation', href: '/methods/project-development/' },
-      { label: 'Climate Finance & Investment Pathways', href: '/methods/climate-finance/' },
-      { label: 'Community & Small Business Resilience', href: '/methods/community-resilience/' },
-      { label: 'Partnerships & Capacity Building', href: '/methods/partnerships/' },
+      { label: 'Portfolio', href: '/portfolio/' },
+      { label: 'Featured Work', href: '/featured-work/' },
+      { label: 'Project Directory', href: '/project-directory/' },
     ],
   },
   {
-    label: 'Programs',
-    href: '/programs/',
+    label: 'Impact',
+    href: '/impact/',
     children: [
-      { label: 'Program Portfolio', href: '/programs/' },
-      { label: 'By Resilience Area', href: '/programs/by-area/' },
-      { label: 'By Location', href: '/programs/by-location/' },
-    ],
-  },
-  {
-    label: 'Insights',
-    href: '/news/',
-    children: [
+      { label: 'Impact', href: '/impact/' },
       { label: 'News', href: '/news/' },
       { label: 'Publications', href: '/publications/' },
-      { label: 'Impact Stories', href: '/impact-stories/' },
     ],
   },
-  { label: 'Contact', href: '/contact/' },
 ];
 
 export interface Stat {
