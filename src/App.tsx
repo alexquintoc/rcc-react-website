@@ -10,6 +10,8 @@ import { CaliforniaAltPage } from './pages/CaliforniaAltPage';
 import { OceansidePage } from './pages/OceansidePage';
 import { NotBuiltPage } from './pages/NotBuiltPage';
 import { AustinFluvialDiagramPage } from './pages/AustinFluvialDiagramPage';
+import { AboutPage, BoardPage, ContactPage, TeamPage } from './pages/InstitutionalPages';
+import { NewsArticlePage, NewsPage, PublicationsPage } from './pages/EditorialPages';
 import { useRouter } from './lib/useRouter';
 
 const ROUTES: Record<string, () => JSX.Element> = {
@@ -18,6 +20,13 @@ const ROUTES: Record<string, () => JSX.Element> = {
   '/home-2': Home2Page,
   '/home-3': Home3Page,
   '/impact': MissionImpactPage,
+  '/about': AboutPage,
+  '/team': TeamPage,
+  '/board-of-directors': BoardPage,
+  '/contact': ContactPage,
+  '/news': NewsPage,
+  '/news/announcing-the-first-resilience-district-incubator-pilot-communities': NewsArticlePage,
+  '/publications': PublicationsPage,
   '/california-v2': CaliforniaPage,
   '/california': CaliforniaAltPage,
   '/ca-oceanside-rebeach': OceansidePage,
