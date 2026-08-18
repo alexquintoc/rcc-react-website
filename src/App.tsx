@@ -12,6 +12,7 @@ import { NotBuiltPage } from './pages/NotBuiltPage';
 import { AustinFluvialDiagramPage } from './pages/AustinFluvialDiagramPage';
 import { AboutPage, BoardPage, ContactPage, TeamPage } from './pages/InstitutionalPages';
 import { NewsArticlePage, NewsPage, PublicationsPage } from './pages/EditorialPages';
+import { HowWeWorkPage } from './pages/HowWeWorkPage';
 import { useRouter } from './lib/useRouter';
 
 const ROUTES: Record<string, () => JSX.Element> = {
@@ -21,6 +22,7 @@ const ROUTES: Record<string, () => JSX.Element> = {
   '/home-3': Home3Page,
   '/impact': MissionImpactPage,
   '/about': AboutPage,
+  '/how-we-work': HowWeWorkPage,
   '/team': TeamPage,
   '/board-of-directors': BoardPage,
   '/contact': ContactPage,

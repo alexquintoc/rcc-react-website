@@ -6,7 +6,7 @@ import './Footer.css';
 export function Footer() {
   const year = new Date().getFullYear();
   const { path } = useRouter();
-  const isHome3 = path === '/' || path === '/home-3' || path === '/impact' || path === '/california' || path === '/ca-oceanside-rebeach' || path === '/about' || path === '/team' || path === '/board-of-directors' || path === '/contact' || path === '/publications' || path.startsWith('/news');
+  const isHome3 = path === '/' || path === '/home-3' || path === '/impact' || path === '/california' || path === '/ca-oceanside-rebeach' || path === '/about' || path === '/how-we-work' || path === '/team' || path === '/board-of-directors' || path === '/contact' || path === '/publications' || path.startsWith('/news');
 
   return (
     <footer className="site-footer">
