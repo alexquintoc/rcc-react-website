@@ -42,7 +42,7 @@ export function HowWeWorkPage() {
     <div className="how-we-work">
       <header className="hww-hero">
         <div className="container hww-hero__inner">
-          <p className="hww-kicker">Who we are</p>
+          <p className="hww-kicker">How we work</p>
           <h1>Our approach</h1>
           <div className="hww-hero__copy">
             <p>Over the past six years, RCC has partnered with cities and communities to move resilience from ideas to action.</p>
