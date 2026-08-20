@@ -12,8 +12,6 @@ const featuredProjects = [
     imageAlt: 'Pacific Ocean along the California coast',
     href: '/california/',
     internal: true,
-    locations: ['California'],
-    areas: ['wildfires', 'drought', 'extreme heat'],
   },
   {
     eyebrow: 'Neighborhood program · New York',
@@ -22,8 +20,6 @@ const featuredProjects = [
     image: 'https://images.squarespace-cdn.com/content/v1/5dba154a6b94a433b56a2b1d/baa9c8b2-61fc-4659-8cc9-486e5c0616f0/DSCF2347_VSCO+%281%29%281%29.JPG',
     imageAlt: 'Community resilience improvements in Brownsville, Brooklyn',
     href: 'https://www.rcc.city/impact-brownsville-nyc',
-    locations: ['New York'],
-    areas: ['extreme heat'],
   },
   {
     eyebrow: 'Global program · Europe & Caribbean',
@@ -32,13 +28,8 @@ const featuredProjects = [
     image: 'https://images.squarespace-cdn.com/content/v1/5dba154a6b94a433b56a2b1d/1680895779744-DZ7079YVGVVBODKKDOYI/pexels-heather-smith-170379.jpg',
     imageAlt: 'Resilient infrastructure within a green landscape',
     href: 'https://www.rcc.city/project-preparation-program',
-    locations: ['Europe', 'Caribbean'],
-    areas: ['drought'],
   },
 ];
-
-const locations = ['California', 'New York', 'Europe', 'Caribbean'];
-const resilienceAreas = ['wildfires', 'drought', 'extreme heat'];
 
 const projects = [
   {
@@ -93,23 +84,13 @@ const directoryLocations = ['California', 'New York', 'Florida', 'Arizona'];
 const directoryAreas = ['coastal resilience', 'extreme heat', 'small business resilience'];
 
 export function PortfolioPage() {
-  const [locationFilter, setLocationFilter] = useState('All');
-  const [areaFilter, setAreaFilter] = useState('All');
   const [directoryLocation, setDirectoryLocation] = useState('All');
   const [directoryArea, setDirectoryArea] = useState('All');
   const sliderRef = useRef<HTMLDivElement>(null);
-  const filteredFeatured = useMemo(() => featuredProjects.filter((project) =>
-    (locationFilter === 'All' || project.locations.includes(locationFilter)) &&
-    (areaFilter === 'All' || project.areas.includes(areaFilter)),
-  ), [locationFilter, areaFilter]);
   const filteredProjects = useMemo(() => projects.filter((project) =>
     (directoryLocation === 'All' || project.locations.includes(directoryLocation)) &&
     (directoryArea === 'All' || project.areas.includes(directoryArea)),
   ), [directoryLocation, directoryArea]);
-
-  function resetSlider() {
-    window.requestAnimationFrame(() => sliderRef.current?.scrollTo({ left: 0, behavior: 'smooth' }));
-  }
 
   function moveSlider(direction: -1 | 1) {
     const slider = sliderRef.current;
@@ -133,25 +114,18 @@ export function PortfolioPage() {
             <div><p className="portfolio-kicker">Featured work</p><h2 id="featured-title">Projects moving resilience forward.</h2></div>
             <p>Selected work connecting local priorities, technical expertise, implementation support, and catalytic investment.</p>
           </div>
-
-          <div className="portfolio-filters" aria-label="Filter featured work">
-            <div className="portfolio-filter-group"><p>Location</p><div>{['All', ...locations].map((location) => <button key={location} type="button" className={locationFilter === location ? 'is-active' : ''} aria-pressed={locationFilter === location} onClick={() => { setLocationFilter(location); resetSlider(); }}>{location}</button>)}</div></div>
-            <div className="portfolio-filter-group"><p>Resilience area</p><div>{['All', ...resilienceAreas].map((area) => <button key={area} type="button" className={areaFilter === area ? 'is-active' : ''} aria-pressed={areaFilter === area} onClick={() => { setAreaFilter(area); resetSlider(); }}>{area}</button>)}</div></div>
-          </div>
-
           <div className="featured-slider">
             <div className="featured-slider__controls">
-              <p aria-live="polite">{filteredFeatured.length} {filteredFeatured.length === 1 ? 'project' : 'projects'}</p>
+              <p>3 projects</p>
               <div><button type="button" onClick={() => moveSlider(-1)} aria-label="Previous featured projects"><ArrowLeft weight="bold" aria-hidden="true" /></button><button type="button" onClick={() => moveSlider(1)} aria-label="Next featured projects"><ArrowRight weight="bold" aria-hidden="true" /></button></div>
             </div>
             <div className="featured-slider__viewport" ref={sliderRef}>
-              <div className={`featured-projects ${filteredFeatured.length === 1 ? 'is-single' : ''}`}>
-                {filteredFeatured.map((project) => {
+              <div className="featured-projects">
+                {featuredProjects.map((project) => {
                   const card = <><div className="featured-project__image photo"><img src={project.image} alt={project.imageAlt} /></div><div className="featured-project__content"><div><p className="featured-project__meta">{project.eyebrow}</p><h3>{project.title}</h3></div><p>{project.description}</p><span>Explore the project {project.internal ? <ArrowRight weight="bold" aria-hidden="true" /> : <ArrowUpRight weight="bold" aria-hidden="true" />}</span></div></>;
                   return project.internal ? <Link key={project.title} to={project.href} className="featured-project">{card}</Link> : <a key={project.title} href={project.href} target="_blank" rel="noreferrer" className="featured-project">{card}</a>;
                 })}
               </div>
-              {filteredFeatured.length === 0 && <div className="featured-empty"><h3>No matching projects.</h3><p>Try another location or resilience area.</p></div>}
             </div>
           </div>
         </div>
