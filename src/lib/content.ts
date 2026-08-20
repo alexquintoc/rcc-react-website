@@ -48,8 +48,8 @@ export const NAV: NavItem[] = [
     href: '/portfolio/',
     children: [
       { label: 'Portfolio', href: '/portfolio/' },
-      { label: 'Featured Work', href: '/featured-work/' },
-      { label: 'Project Directory', href: '/project-directory/' },
+      { label: 'Featured Work', href: '/portfolio/#featured-work' },
+      { label: 'Project Directory', href: '/portfolio/#project-directory' },
     ],
   },
   {

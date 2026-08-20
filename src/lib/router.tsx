@@ -23,12 +23,24 @@ export function RouterProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const navigate = useCallback((to: string) => {
-    const target = normalize(to);
-    if (target !== normalize(window.location.pathname)) {
-      window.history.pushState({}, '', target);
-      setPath(target);
+    const url = new URL(to, window.location.origin);
+    const targetPath = normalize(url.pathname);
+    const targetLocation = `${targetPath}${url.search}${url.hash}`;
+    const currentLocation = `${normalize(window.location.pathname)}${window.location.search}${window.location.hash}`;
+
+    if (targetLocation !== currentLocation) {
+      window.history.pushState({}, '', targetLocation);
+      setPath(targetPath);
     }
-    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+
+    window.requestAnimationFrame(() => {
+      const sectionId = url.hash.slice(1);
+      if (sectionId) {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+      }
+    });
   }, []);
 
   const value = useMemo(() => ({ path, navigate }), [path, navigate]);
